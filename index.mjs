@@ -16,7 +16,7 @@ const pool = mysql.createPool({
 });
 //routes
 app.get('/', (req, res) => {
-   res.send('Hello Express app!')
+   res.render('login.ejs')
 });
 app.get("/dbTest", async(req, res) => {
    try {
