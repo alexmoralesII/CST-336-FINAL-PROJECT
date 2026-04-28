@@ -1,5 +1,11 @@
 import express from 'express';
 import mysql from 'mysql2/promise';
+import bcrypt from 'bcrypt';
+import session from 'express-session';
+import {isUserAuthenticated} from './middleware/isAuthenticated.mjs'
+import {getFullName} from './middleware/fullName.mjs';
+
+
 const app = express();
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
@@ -18,6 +24,10 @@ const pool = mysql.createPool({
 app.get('/', (req, res) => {
    res.render('login.ejs')
 });
+
+//middleware used by ALL routes
+app.use(getFullName);
+
 app.get("/dbTest", async(req, res) => {
    try {
         const [rows] = await pool.query("SELECT CURDATE()");
