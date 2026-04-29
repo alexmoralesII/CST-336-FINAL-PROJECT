@@ -14,8 +14,8 @@ app.use(express.urlencoded({extended:true}));
 //setting up database connection pool, replace values in red
 const pool = mysql.createPool({
     host: "nwhazdrp7hdpd4a4.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    user: "qqv6hy4j7rbddqyl",
-    password: "aad3igcuqf1bev1c",
+    user: process.env.DB_USERNAME,
+    password: process.env.DB_PWD,
     database: "knpq9kqfuqvfgfvz",
     connectionLimit: 10,
     waitForConnections: true
