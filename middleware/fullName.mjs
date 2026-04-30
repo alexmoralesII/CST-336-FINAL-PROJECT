@@ -1,4 +1,4 @@
-export function fullName (req, res, next) {
-   res.locals.fullName = req.session.fullName || "";
+export function getfullName (req, res, next) {
+   res.locals.FullName = req.session.fullName || "";
    next(); //next middleware/route
 };
