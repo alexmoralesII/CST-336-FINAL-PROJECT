@@ -57,6 +57,25 @@ app.get('/artist/lyrics', async (req, res) => {
     });
 });
 
+
+app.get('/events', (req, res) => {
+    res.render('events.ejs', { events: null });
+});
+
+app.get('/events/search', async (req, res) => {
+    let artist = req.query.artist;
+    let eventsResponse = await fetch(`https://api.data.jambase.com/v3/events?artistName=${artist}`, {
+        method: "GET",
+        headers: {
+            "Authorization": "Bearer jbd_trial_QO1jj40lI3Wj_eDrpOVafFa1ulZ5Rr4G3mfh33ZE7QExM",
+            "Accept": "application/json",
+            "User-Agent": "JamBaseData-Sandbox/1.0"
+        }
+    });
+    let eventsData = await eventsResponse.json();
+    res.render('events.ejs', { events: eventsData.events || [], artist });
+});
+
 app.get("/dbTest", async (req, res) => {
     try {
         const [rows] = await pool.query("SELECT CURDATE()");
