@@ -25,8 +25,6 @@ router.get('/logout', (req, res) => {
 
 //route that checks username and password
 router.post('/loginProcess', async (req, res) => {
-//    let username = req.body.username;
-//    let password = req.body.password;
    let {username, password} = req.body;
    console.log(username + ": " + password);
 
@@ -49,7 +47,6 @@ router.post('/loginProcess', async (req, res) => {
      res.render('welcome.ejs', {"fullName":req.session.fullName});
    } else {
      let loginError = "Wrong Credentials! Try again!"
-     //res.locals.loginError = "wrong credentials"
      res.render('login.ejs', {loginError});
    }
 });
