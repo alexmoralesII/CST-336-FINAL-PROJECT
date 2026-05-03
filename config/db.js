@@ -1,4 +1,5 @@
 import mysql from 'mysql2/promise'
+import 'dotenv/config';
 
 export const pool = mysql.createPool({
     host: "nwhazdrp7hdpd4a4.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
