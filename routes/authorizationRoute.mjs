@@ -2,6 +2,8 @@ import express from 'express';
 import bcrypt from 'bcrypt';
 import mysql from 'mysql2/promise';
 import {isUserAuthenticated} from '../middleware/isAuthenticated.mjs';
+import {pool} from '../config/db.js';
+
 
 
 const router = express.Router();
@@ -10,13 +12,13 @@ router.get('/', (req, res) => {
    res.render('login.ejs')
 });
 
-router.get('/profile', isUserAuthenticated, (req, res) => {
-  res.render('profile.ejs')
-});
+// router.get('/profile', isUserAuthenticated, (req, res) => {
+//   res.render('profile.ejs')
+// });
 
-router.get('/settings', isUserAuthenticated,  (req, res) => {
-  res.render("settings.ejs")
-});
+// router.get('/settings', isUserAuthenticated,  (req, res) => {
+//   res.render("settings.ejs")
+// });
 
 router.get('/logout', (req, res) => {
    req.session.destroy();

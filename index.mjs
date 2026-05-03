@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import session from 'express-session';
 import { isUserAuthenticated } from './middleware/isAuthenticated.mjs'
 import { getFullName } from './middleware/fullName.mjs';
-import {authRoutes} from './routes/authorizationRoute.mjs';
+import authRoutes from './routes/authorizationRoute.mjs';
 
 
 const app = express();
@@ -12,15 +12,7 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 //for Express to get values using the POST method
 app.use(express.urlencoded({ extended: true }));
-//setting up database connection pool, replace values in red
-const pool = mysql.createPool({
-    host: "nwhazdrp7hdpd4a4.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    user: process.env.DB_USERNAME,
-    password: process.env.DB_PWD,
-    database: "knpq9kqfuqvfgfvz",
-    connectionLimit: 10,
-    waitForConnections: true
-});
+
 
 //setting sessions
 app.set('trust proxy', 1) // trust first proxy
