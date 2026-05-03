@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import session from 'express-session';
 import { isUserAuthenticated } from './middleware/isAuthenticated.mjs'
 import { getFullName } from './middleware/fullName.mjs';
-import {router} from './routes/authorizationRoute.mjs';
+import {authRoutes} from './routes/authorizationRoute.mjs';
 
 
 const app = express();
