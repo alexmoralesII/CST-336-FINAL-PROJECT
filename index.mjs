@@ -20,10 +20,21 @@ const pool = mysql.createPool({
     connectionLimit: 10,
     waitForConnections: true
 });
+
+//setting sessions
+app.set('trust proxy', 1) // trust first proxy
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true
+//   cookie: { secure: true }
+}))
+
 //routes
-app.get('/', (req, res) => {
-    res.render('login.ejs')
-});
+app.get("/", authRoutes);
+
+
+
 
 //middleware used by ALL routes
 app.use(getFullName);
