@@ -61,3 +61,7 @@ a:hover {
     top: 3px;
     cursor: pointer;
 }
+
+.btn btn-success{
+    color: #d0beff;
+}
