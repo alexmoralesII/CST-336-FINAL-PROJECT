@@ -61,7 +61,7 @@ router.post('/login', async (req, res) => {
 
   try {
     const [rows] = await pool.query(
-      'SELECT * FROM users WHERE username = ?', [username]
+      'SELECT * FROM user WHERE username = ?', [username]
     );
 
     if (rows.length === 0) {
