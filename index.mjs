@@ -68,9 +68,6 @@ app.get('/dbTest', async (req, res) => {
   }
 });
 
-// ─── 404 handler ─────────────────────────────────────────────────────────────
-app.use((req, res) => res.status(404).render('404.ejs'));
-
 // ─── Global error handler ────────────────────────────────────────────────────
 app.use((err, req, res, _next) => {
   console.error(err.stack);
