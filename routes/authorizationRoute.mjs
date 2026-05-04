@@ -13,13 +13,6 @@ router.get('/', (req, res) => {
    res.render('login.ejs')
 });
 
-// router.get('/profile', isUserAuthenticated, (req, res) => {
-//   res.render('profile.ejs')
-// });
-
-// router.get('/settings', isUserAuthenticated,  (req, res) => {
-//   res.render("settings.ejs")
-// });
 
 router.get('/logout', (req, res) => {
    req.session.destroy();
