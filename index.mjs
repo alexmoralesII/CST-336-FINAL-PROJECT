@@ -31,7 +31,7 @@ app.use(session({
 
 
 
-// app.use(getFullName);
+app.use(getFullName);
 
 app.use('/', authRoutes);
 
@@ -91,7 +91,7 @@ app.get('/events/search', async (req, res) => {
 
 // 
 
-// app.use('/user', isUserAuthenticated, userRoutes);
+app.use('/user', isUserAuthenticated, userRoutes);
 
 // app.get('/dbTest', async (req, res) => {
 //   try {

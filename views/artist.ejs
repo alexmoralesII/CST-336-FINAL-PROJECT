@@ -13,9 +13,9 @@
 </head>
 <body>
     <%- include('partials/navbar.ejs') %>
-
+    
     <h1>Artist Search</h1>
-
+    <p><%= locals.fullName %></p>
 
     <div id="search-section">
         <form action="/artist/search" method="GET">

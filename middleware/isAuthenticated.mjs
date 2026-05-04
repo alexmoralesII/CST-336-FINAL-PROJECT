@@ -1,7 +1,7 @@
-export function isUserAuthenticated(req, res, next){
-    if (req.session.authenticated) { 
-      next();
-   } else {
-     res.redirect("/");
-   }
+export function isUserAuthenticated(req, res, next) {
+    if (req.session.userId) {
+        next();
+    } else {
+        res.redirect('/');
+    }
 }

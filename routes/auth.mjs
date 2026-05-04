@@ -52,9 +52,7 @@ router.get('/', (req, res) => {
    res.render('login.ejs')
 });
 
-router.get('/login', (req, res) => {
-   res.render('login.ejs')
-});
+
 
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
@@ -65,7 +63,7 @@ router.post('/login', async (req, res) => {
 
   try {
     const [rows] = await pool.query(
-      'SELECT * FROM user WHERE username = ?', [username]
+      'SELECT * FROM users WHERE username = ?', [username]
     );
 
     if (rows.length === 0) {
@@ -82,8 +80,10 @@ router.post('/login', async (req, res) => {
     req.session.userId   = user.userId;
     req.session.username = user.username;
     req.session.role     = user.role;
-
-    res.redirect('/artist');
+    console.log('user object:', user);
+    req.session.save(() => {
+        res.redirect('/artist');
+    });
   } catch (err) {
     console.error('Login error:', err);
     res.status(500).render('error.ejs', { message: 'Login failed.' });
