@@ -28,13 +28,12 @@ app.use(session({
 }))
 
 
-// app.use("/", authRoutes);
 
 // app.use(getFullName);
 
 app.get('/', (req, res) => res.render('login.ejs'));
 
-// app.use('/', authRoutes);
+ app.use('/', authRoutes);
 
 
 
