@@ -1,20 +1,20 @@
-<% locals.title = 'Login' %>
+<% locals.title = 'Register' %>
 <%- include('partials/header') %>
 <%- include('partials/navbar') %>
 
 <main>
-  <h1>Login</h1>
+  <h1>Create Account</h1>
   <% if (error) { %><p class="error"><%= error %></p><% } %>
-  <form method="POST" action="/login">
+  <form method="POST" action="/register">
     <label>Username
       <input type="text" name="username" required>
     </label>
     <label>Password
       <input type="password" name="password" required>
     </label>
-    <button type="submit">Login</button>
+    <button type="submit">Register</button>
   </form>
-  <p>Don't have an account? <a href="/register">Register</a></p>
+  <p>Already have an account? <a href="/login">Login</a></p>
 </main>
 
 <%- include('partials/footer') %>
