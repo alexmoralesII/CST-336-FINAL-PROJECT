@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 import session from 'express-session';
 import { isUserAuthenticated } from './middleware/isAuthenticated.mjs';
 import { getFullName } from './middleware/fullName.mjs';
-import authRoutes from './routes/authorizationRoute.mjs';
+import { pool } from './config/db.js';
 
 // ─── Route modules ────────────────────────────────────────────────────────────
 import authRoutes   from './routes/auth.mjs';

@@ -6,7 +6,7 @@
 
 import express from 'express';
 import bcrypt  from 'bcrypt';
-import { pool } from '../index.mjs';
+import { pool } from '../config/db.js';
 
 const router = express.Router();
 
