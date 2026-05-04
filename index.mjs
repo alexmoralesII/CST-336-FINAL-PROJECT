@@ -32,7 +32,7 @@ app.use(session({
 
 // app.use(getFullName);
 
-// app.get('/', (req, res) => res.render('login.ejs'));
+app.get('/', (req, res) => res.render('login.ejs'));
 
 // app.use('/', authRoutes);
 
