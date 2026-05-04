@@ -25,7 +25,7 @@ app.use(session({
 }))
 
 //routes
-app.get("/", authRoutes);
+app.use("/", authRoutes);
 
 
 

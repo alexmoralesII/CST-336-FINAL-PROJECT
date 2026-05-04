@@ -47,7 +47,7 @@ router.post('/loginProcess', async (req, res) => {
    if (match) {
      req.session.authenticated = true;
      req.session.fullName = rows[0].firstName + " " + rows[0].lastName;
-     res.render('welcome.ejs', {"fullName":req.session.fullName});
+     res.render('Welcome.ejs', {"fullName":req.session.fullName});
    } else {
      let loginError = "Wrong Credentials! Try again!"
      res.render('login.ejs', {loginError});
