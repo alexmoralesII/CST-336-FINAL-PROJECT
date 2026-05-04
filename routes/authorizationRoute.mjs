@@ -1,4 +1,5 @@
 import express from 'express';
+import 'dotenv/config';
 import bcrypt from 'bcrypt';
 import mysql from 'mysql2/promise';
 import {isUserAuthenticated} from '../middleware/isAuthenticated.mjs';
