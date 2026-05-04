@@ -1,9 +1,11 @@
 import express from 'express';
+import 'dotenv/config';
 import mysql from 'mysql2/promise';
 import bcrypt from 'bcrypt';
 import session from 'express-session';
 import { isUserAuthenticated } from './middleware/isAuthenticated.mjs';
 import { getFullName } from './middleware/fullName.mjs';
+import authRoutes from './routes/authorizationRoute.mjs';
 
 // ─── Route modules ────────────────────────────────────────────────────────────
 import authRoutes   from './routes/auth.mjs';
@@ -21,28 +23,22 @@ app.use(express.static('public'));
 
 // ─── Body parsing ─────────────────────────────────────────────────────────────
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 
-// ─── Session ──────────────────────────────────────────────────────────────────
+
+//setting sessions
+app.set('trust proxy', 1) // trust first proxy
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'changeme-in-production',
+  secret: 'keyboard cat',
   resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: false,          // set true when behind HTTPS
-    maxAge: 1000 * 60 * 60  // 1 hour
-  }
-}));
+  saveUninitialized: true
+//   cookie: { secure: true }
+}))
 
-// ─── Database pool ────────────────────────────────────────────────────────────
-export const pool = mysql.createPool({
-  host:            process.env.DB_HOST     || 'nwhazdrp7hdpd4a4.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-  user:            process.env.DB_USERNAME,
-  password:        process.env.DB_PWD,
-  database:        process.env.DB_NAME     || 'knpq9kqfuqvfgfvz',
-  connectionLimit: 10,
-  waitForConnections: true
-});
+//routes
+app.use("/", authRoutes);
+
+
+
 
 // ─── Global middleware ────────────────────────────────────────────────────────
 app.use(getFullName);   // attaches res.locals.fullName to every request
