@@ -14,7 +14,7 @@ const router = express.Router();
 router.get('/profile', async (req, res) => {
   try {
     const [rows] = await pool.query(
-      'SELECT id, first_name, last_name, email FROM users WHERE id = ?',
+      'SELECT userId, username, role FROM users WHERE userId = ?',
       [req.session.userId]
     );
 
@@ -30,17 +30,15 @@ router.get('/profile', async (req, res) => {
 });
 
 // ── POST /user/profile ────────────────────────────────────────────────────────
-// Update display name or password
 router.post('/profile', async (req, res) => {
-  const { first_name, last_name, current_password, new_password } = req.body;
+  const { current_password, new_password } = req.body;
 
   try {
     const [rows] = await pool.query(
-      'SELECT * FROM users WHERE id = ?', [req.session.userId]
+      'SELECT * FROM users WHERE userId = ?', [req.session.userId]
     );
     const user = rows[0];
 
-    // If changing password, verify current password first
     if (new_password) {
       const match = await bcrypt.compare(current_password, user.password);
       if (!match) {
@@ -50,18 +48,12 @@ router.post('/profile', async (req, res) => {
       }
       const hashed = await bcrypt.hash(new_password, 10);
       await pool.query(
-        'UPDATE users SET first_name = ?, last_name = ?, password = ? WHERE id = ?',
-        [first_name, last_name, hashed, req.session.userId]
-      );
-    } else {
-      await pool.query(
-        'UPDATE users SET first_name = ?, last_name = ? WHERE id = ?',
-        [first_name, last_name, req.session.userId]
+        'UPDATE users SET password = ? WHERE userId = ?',
+        [hashed, req.session.userId]
       );
     }
 
-    const updatedUser = { ...user, first_name, last_name };
-    res.render('profile.ejs', { user: updatedUser, error: null, success: 'Profile updated!' });
+    res.render('profile.ejs', { user, error: null, success: 'Profile updated!' });
   } catch (err) {
     console.error('Profile update error:', err);
     res.status(500).render('error.ejs', { message: 'Could not update profile.' });
