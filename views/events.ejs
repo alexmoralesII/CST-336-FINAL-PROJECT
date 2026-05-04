@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Events</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link href="/css/styles.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
@@ -33,7 +33,7 @@
                 <div id="events-grid">
                     <% for (let i of events) { %>
                         <div class="event-card">
-                            <h3 class="event-artist"><%= i.headliner.name %></h3>
+                            <h3 class="event-artist"><%= i.name %></h3>
                             <p class="event-date"><%= new Date(i.startDate).toDateString() %></p>
                             <p class="event-venue"><%= i.location.name %></p>
                             <p class="event-city"><%= i.location.address.addressLocality %>, <%= i.location.address.addressRegion %></p>
