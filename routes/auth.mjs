@@ -48,8 +48,8 @@ router.post('/register', async (req, res) => {
 
 // ── Login ─────────────────────────────────────────────────────────────────────
 
-router.get('/login', (req, res) => {
-  res.render('login.ejs', { error: null });
+router.get('/', (req, res) => {
+   res.render('login.ejs')
 });
 
 router.post('/login', async (req, res) => {

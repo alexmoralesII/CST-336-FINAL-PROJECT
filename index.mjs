@@ -18,6 +18,8 @@ const PORT = process.env.PORT || 3000;
 
 
 app.set('view engine', 'ejs');
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(express.static('public'));
 
 app.set('trust proxy', 1)
@@ -33,7 +35,7 @@ app.use(session({
 
 app.get('/', (req, res) => res.render('login.ejs'));
 
- app.use('/', authRoutes);
+ app.get('/', authRoutes);
 
 
 
