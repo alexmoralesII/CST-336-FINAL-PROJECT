@@ -137,8 +137,6 @@ nav {
     font-size: 13px;
 }
 
-
-
 a {
     display: inline-block;
     padding: 8px 15px;
@@ -157,21 +155,86 @@ a:hover {
 .logo {
     width: 200px;
 }
+.login {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
-.loginDiv {
+.login h1 {
+    color: #a448ff;
+}
+
+.login .loginDiv {
     position: relative;
     display: inline-block;
 }
 
-.loginIcon {
-    position: absolute;
-    right: 5px;
-    top: 3px;
-    cursor: pointer;
+.login input[type="text"],
+.login input[type="password"] {
+    padding: 10px 40px 10px 15px;
+    width: 280px;
+    border: 1px solid blueviolet;
+    border-radius: 25px;
+    background-color: black;
+    color: white;
+    outline: none;
+    font-size: 14px;
+    transition: border-color 0.2s ease;
 }
 
-.btn-success{
+.login input[type="text"]:focus,
+.login input[type="password"]:focus {
+    border-color: #a448ff;
+    box-shadow: 0 0 6px rgba(138, 43, 226, 0.4);
+}
+
+.login .loginIcon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #a448ff;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.login .btn-success {
+    padding: 10px 30px;
+    border-radius: 25px;
+    border: none;
+    background-color: blueviolet;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    width: 280px;
+}
+
+.login .btn-success:hover {
+    background-color: #a448ff;
+    color: black;
+}
+
+.login p {
     color: #d0beff;
+    margin-top: 16px;
+    font-size: 14px;
+}
+
+.login p a {
+    background: none;
+    border: none;
+    color: #a448ff;
+    padding: 0;
+    text-decoration: underline;
+}
+
+.login p a:hover {
+    background: none;
+    color: blueviolet;
 }
 
 #search-section {
