@@ -1,91 +1,106 @@
+
+
 import express from 'express';
+import 'dotenv/config';
 import mysql from 'mysql2/promise';
 import bcrypt from 'bcrypt';
 import session from 'express-session';
-const app = express();
+import { isUserAuthenticated } from './middleware/isAuthenticated.mjs'
+import { getFullName } from './middleware/fullName.mjs';
+
+
+import { pool } from './config/db.js';
+import authRoutes   from './routes/auth.mjs';
+import userRoutes   from './routes/user.mjs';
+
+const app  = express();
+const PORT = process.env.PORT || 3000;
+
 
 app.set('view engine', 'ejs');
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(express.static('public'));
-//for Express to get values using the POST method
-app.use(express.urlencoded({extended:true}));
-//setting up database connection pool, replace values in red
-const pool = mysql.createPool({
-    host: "nwhazdrp7hdpd4a4.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    user: "qqv6hy4j7rbddqyl",
-    password: "aad3igcuqf1bev1c",
-    database: "knpq9kqfuqvfgfvz",
-    connectionLimit: 10,
-    waitForConnections: true
-});
 
-app.set('trust proxy', 1) // trust first proxy
+app.set('trust proxy', 1)
 app.use(session({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: true
-//   cookie: { secure: true }
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true
 }))
-//routes
-app.get('/', (req, res) => {
-   res.render('login.ejs')
+
+
+
+app.use(getFullName);
+
+app.use('/', authRoutes);
+
+
+
+
+// artist route
+app.get('/artist', (req, res) => {
+    res.render('artist.ejs', { songs: null, lyrics: null, artist: null, song: null });
+});
+
+app.get('/artist/search', async (req, res) => {
+    let artist = req.query.artist;
+    let suggestResponse = await fetch(`https://api.lyrics.ovh/suggest/${artist}`);
+    let suggestData = await suggestResponse.json();
+    res.render('artist.ejs', {
+        songs: suggestData.data || [],
+        lyrics: null,
+        artist,
+        song: null
+    });
+});
+
+app.get('/artist/lyrics', async (req, res) => {
+    let { artist, song } = req.query;
+    let lyricsResponse = await fetch(`https://api.lyrics.ovh/v1/${artist}/${song}`);
+    let lyricsData = await lyricsResponse.json();
+    res.render('artist.ejs', {
+        songs: null,
+        lyrics: lyricsData.lyrics || 'Lyrics not found.',
+        artist,
+        song
+    });
 });
 
 
-app.post('/loginProcess', async (req, res) => {
-    let { username, password } = req.body;
-    let foundUser = null;
-    let role = null;
+// events route
 
-    //Check admin table first
-    const [adminRows] = await pool.query(
-        `SELECT * FROM admin WHERE username = ?`, [username]
-    );
-
-    if (adminRows.length > 0) {
-        const match = await bcrypt.compare(password, adminRows[0].password);
-        if (match) {
-            foundUser = adminRows[0];
-            role = 'admin';
+app.get('/events', (req, res) => {
+    res.render('events.ejs', { events: null });
+});
+app.get('/events/search', async (req, res) => {
+    let artist = req.query.artist;
+    let eventsResponse = await fetch(`https://api.data.jambase.com/v3/events?artistName=${artist}`, {
+        method: "GET",
+        headers: {
+            "Authorization": "Bearer jbd_trial_QO1jj40lI3Wj_eDrpOVafFa1ulZ5Rr4G3mfh33ZE7QExM",
+            "Accept": "application/json",
+            "User-Agent": "JamBaseData-Sandbox/1.0"
         }
-    }
-
-    //If not an admin, check user table
-    if (!foundUser) {
-        const [userRows] = await pool.query(
-            `SELECT * FROM user WHERE username = ?`, [username]
-        );
-
-        if (userRows.length > 0) {
-            const match = await bcrypt.compare(password, userRows[0].password);
-            if (match) {
-                foundUser = userRows[0];
-                role = 'user';
-            }
-        }
-    }
-    // Handles result
-    if (foundUser) {
-        req.session.authenticated = true;
-        req.session.role = role;  // <-- 'admin' or 'user'
-        req.session.fullName = foundUser.firstName + " " + foundUser.lastName;
-        res.render('home.ejs', { fullName: req.session.fullName, role });
-    } else {
-        let loginError = "Wrong Credentials! Try again!";
-        res.render('login.ejs', { loginError });
-    }
+    });
+    let eventsData = await eventsResponse.json();
+    res.render('events.ejs', { events: eventsData.events || [], artist });
 });
 
 
 
-app.get("/dbTest", async(req, res) => {
-   try {
-        const [rows] = await pool.query("SELECT CURDATE()");
-        res.send(rows);
-    } catch (err) {
-        console.error("Database error:", err);
-        res.status(500).send("Database error!");
-    }
-});//dbTest
-app.listen(3000, ()=>{
-    console.log("Express server running")
-})
+// 
+
+app.use('/user', isUserAuthenticated, userRoutes);
+
+// app.get('/dbTest', async (req, res) => {
+//   try {
+//     const [rows] = await pool.query('SELECT CURDATE() AS today');
+//     res.json(rows);
+//   } catch (err) {
+//     console.error('Database error:', err);
+//     res.status(500).send('Database error!');
+//   }
+// });
+
+app.listen(PORT, () => console.log(`Express server running on port ${PORT}`));

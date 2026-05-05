@@ -1,0 +1,26 @@
+<% locals.title = 'My Profile' %>
+<%- include('partials/header') %>
+<%- include('partials/navbar') %>
+
+<main>
+  <h1>My Profile</h1>
+  <% if (error)   { %><p class="error"><%= error %></p><% } %>
+  <% if (success) { %><p class="success"><%= success %></p><% } %>
+
+  <form method="POST" action="/user/profile">
+    <label>Username
+      <input type="text" value="<%= user.username %>" disabled>
+    </label>
+    <hr>
+    <p>Change password (leave blank to keep current):</p>
+    <label>Current Password
+      <input type="password" name="current_password">
+    </label>
+    <label>New Password
+      <input type="password" name="new_password">
+    </label>
+    <button type="submit">Save Changes</button>
+  </form>
+</main>
+
+<%- include('partials/footer') %>

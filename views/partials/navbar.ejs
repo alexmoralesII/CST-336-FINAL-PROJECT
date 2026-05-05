@@ -1,0 +1,25 @@
+<nav>
+  <div class="nav-brand">
+    <a href="/artist">🎵 Music App</a>
+  </div>
+
+  <div class="nav-links">
+    <a href="/artist">Search</a>
+    <a href="/events"> Search for Events</a>
+
+    <% if (locals.fullName) { %>
+      <a href="/user/favorites">Favorites</a>
+      <a href="/user/profile">Profile</a>
+
+      <% if (locals.role === 'admin') { %>
+        <a href="/admin">Admin</a>
+      <% } %>
+
+      <span class="nav-user">Welcome, <%= fullName %></span>
+      <a href="/logout">Logout</a>
+    <% } else { %>
+      <a href="/login">Login</a>
+      <a href="/register">Register</a>
+    <% } %>
+  </div>
+</nav>

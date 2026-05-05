@@ -1,0 +1,67 @@
+body {
+    background-color: black;
+    color: blueviolet;
+    padding: 15px;
+    margin: 0;
+    border-bottom: 3px solid rgb(0, 0, 0);
+    text-align: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+h1 {
+    text-align: center;
+    color: rgb(132, 0, 255);
+}
+
+.logo {
+    object-fit: contain;
+    width: 150px;
+    height: auto;
+}
+
+footer {
+    text-align: center;
+    color: blueviolet;
+    background-color: rgb(223, 214, 214);
+    width: 100%;
+    margin: 0;
+    font-style: italic;
+    margin-top: auto;
+}
+
+a {
+    display: inline-block;
+    padding: 8px 15px;
+    background-color: #d0beff;
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    border-radius: 5px;
+    margin: 2px;
+}
+
+a:hover {
+    background-color: #a448ff;
+    color: rgb(0, 0, 0);
+}
+
+.logo {
+    width: 200px;
+}
+
+.loginDiv {
+    position: relative;
+    display: inline-block;
+}
+
+.loginIcon {
+    position: absolute;
+    right: 5px;
+    top: 3px;
+    cursor: pointer;
+}
+
+.btn btn-success{
+    color: #d0beff;
+}
