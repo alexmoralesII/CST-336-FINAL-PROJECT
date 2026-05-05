@@ -41,6 +41,11 @@
                                 <a href="/artist/lyrics?artist=<%= i.artist.name %>&song=<%= i.title %>">
                                 <%= i.title %>
                                 </a>
+                                <form method="POST" action="/user/favorites/song/add" class="favorite-form">
+                                    <input type="hidden" name="songTitle" value="<%= i.title %>">
+                                    <input type="hidden" name="artistName" value="<%= i.artist.name %>">
+                                    <button type="submit" class="favorite-btn">♡</button>
+                                </form>
                             </div>
                         <% } %>
                     </div>
@@ -85,7 +90,45 @@
 
     <%- include('partials/footer.ejs') %>
 
-    
+    <script>
+    const songs = document.querySelectorAll('.song-row');
+    const songsPerPage = 10;
+    let currentPage = 0;
+
+    function showPage(page) {
+        let start = page * songsPerPage;
+        let end = start + songsPerPage;
+
+        for (let i = 0; i < songs.length; i++) {
+            songs[i].style.display = i >= start && i < end ? 'flex' : 'none';
+        }
+    }
+
+    function updateButtons() {
+        document.getElementById('prev-btn').style.display =
+            currentPage === 0 ? 'none' : 'inline-block';
+
+        document.getElementById('next-btn').style.display =
+            (currentPage + 1) * songsPerPage >= songs.length ? 'none' : 'inline-block';
+    }
+
+    if (songs.length > 0) {
+        showPage(currentPage);
+        updateButtons();
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            currentPage++;
+            showPage(currentPage);
+            updateButtons();
+        });
+
+        document.getElementById('prev-btn').addEventListener('click', () => {
+            currentPage--;
+            showPage(currentPage);
+            updateButtons();
+        });
+    }
+    </script>
 </body>
     
 </html>
