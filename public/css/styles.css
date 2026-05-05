@@ -23,12 +23,16 @@ h1 {
 
 footer {
     text-align: center;
-    color: blueviolet;
-    background-color: rgb(223, 214, 214);
+    color: #d0beff;
+    background: linear-gradient(to bottom, black, #1a0033);
     width: 100%;
     margin: 0;
-    font-style: italic;
     margin-top: auto;
+    padding: 30px 20px 20px;
+    font-style: italic;
+    border-top: 1px solid blueviolet;
+    font-size: 14px;
+    letter-spacing: 0.5px;
 }
 
 a {
