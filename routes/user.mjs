@@ -15,31 +15,8 @@ router.get('/profile', isUserAuthenticated, (req, res) => {
   res.render('profile.ejs', { error: null, success: null, user: { username: req.session.username } });
 });
 
-// ── POST /user/profile ────────────────────────────────────────────────────────
-router.post('/profile', async (req, res) => {
-  const { current_password, new_password } = req.body;
 
-  try {
-    const [rows] = await pool.query(
-      'SELECT * FROM user WHERE userId = ?', [req.session.userId]
-    );
-    const user = rows[0];
 
-    if (new_password) {
-      const match = await bcrypt.compare(current_password, user.password);
-      if (!match) {
-        return res.render('profile.ejs', {
-          user, error: 'Current password is incorrect.', success: null
-        });
-      }
-      const hashed = await bcrypt.hash(new_password, 10);
-      await pool.query(
-        'UPDATE users SET password = ? WHERE userId = ?',
-        [hashed, req.session.userId]
-      );
-    }
-
-<<<<<<< augustin-final-backend
 // ── GET /user/settings ────────────────────────────────────────────────────────
   router.get('/settings', isUserAuthenticated, (req, res) => {
     res.render('settings.ejs', { error: null, success: null });
@@ -69,15 +46,6 @@ router.post('/profile', async (req, res) => {
     }
   });
 
-
-  export default router;
-=======
-    res.render('profile.ejs', { user, error: null, success: 'Profile updated!' });
-  } catch (err) {
-    console.error('Profile update error:', err);
-    res.status(500).render('error.ejs', { message: 'Could not update profile.' });
-  }
-});
 
 // ── GET /user/favorites ───────────────────────────────────────────────────────
 router.get('/favorites', async (req, res) => {
@@ -144,4 +112,3 @@ router.post('/favorites/song/delete/:id', async (req, res) => {
 });
 
 export default router;
->>>>>>> main
