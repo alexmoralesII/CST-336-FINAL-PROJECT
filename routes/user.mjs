@@ -29,6 +29,7 @@ router.get('/profile', isUserAuthenticated, (req, res) => {
       const [rows] = await pool.query(
         'SELECT * FROM user WHERE userId = ?', [req.session.userId]
       );
+      
       const user = rows[0];
       const match = await bcrypt.compare(current_password, user.password);
       if (!match) {
