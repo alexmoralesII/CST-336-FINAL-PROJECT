@@ -19,17 +19,6 @@ router.get('/admin', isUserAuthenticated, (req, res) => {
   res.render('admin.ejs', { error: null, success: null, user: { username: req.session.username } });
 });
 
-router.post('/admin', isUserAuthenticated, async (req, res) => {
-  try{
-    const[rows] = await pool.query(
-      'DELETE FROM users WHERE userId = ?', [req.session.userId]
-    )
-  } catch (err) {
-      console.error('Settings error:', err);
-      res.status(500).render('error.ejs', { message: 'Could not update password.' });
-    }
-  });
-
 
 
 
@@ -137,4 +126,37 @@ router.post('/favorites/artist/delete/:id', async (req, res) => {
     });
   }
 });
+
+// ── GET /admin/users ──────────────────────────────────────────────────────────
+router.get('/admin/users', isUserAuthenticated, async (req, res) => {
+  if (!req.session.isAdmin) {
+    return res.redirect('/artist');
+  }
+  try {
+    const [users] = await pool.query(
+      'SELECT userId, username, isAdmin FROM users'
+    );
+    res.render('admin.ejs', { users });
+  } catch (err) {
+    console.error('Admin users error:', err);
+    res.status(500).render('error.ejs', { message: 'Could not load users.' });
+  }
+});
+
+// ── POST /admin/users/delete/:id ──────────────────────────────────────────────
+router.post('/admin/users/delete/:id', isUserAuthenticated, async (req, res) => {
+  if (!req.session.isAdmin) {
+    return res.redirect('/artist');
+  }
+  try {
+    await pool.query(
+      'DELETE FROM users WHERE userId = ?', [req.params.id]
+    );
+    res.redirect('/admin/users');
+  } catch (err) {
+    console.error('Delete user error:', err);
+    res.status(500).render('error.ejs', { message: 'Could not delete user.' });
+  }
+});
+
 export default router;
