@@ -1,0 +1,36 @@
+<% locals.title = 'Manage Users' %>
+<%- include('partials/header') %>
+<%- include('partials/navbar') %>
+
+<main>
+  <h1>Manage Users</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Admin</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% users.forEach(u => { %>
+        <tr>
+          <td><%= u.userId %></td>
+          <td><%= u.username %></td>
+          <td><%= u.isAdmin ? 'Yes' : 'No' %></td>
+          <td>
+            <% if (!u.isAdmin) { %>
+              <form method="POST" action="/user/admin/users/delete/<%= u.userId %>">
+                <button type="submit">Delete</button>
+              </form>
+            <% } %>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</main>
+
+<%- include('partials/footer') %>

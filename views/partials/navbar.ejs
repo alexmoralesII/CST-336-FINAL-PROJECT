@@ -8,9 +8,9 @@
       <a href="/user/profile">Profile</a>
       <a href="/user/settings">Settings</a>
 
-      <% if (locals.role === 'admin') { %>
-        <a href="/admin">Admin</a>
-      <% } %>
+      <% if (isAdmin == 1) { %>
+  <a href="/user/admin/users">Manage Users</a>
+<% } %>
 
       <a href="/logout">Logout</a>
     <% } %>
