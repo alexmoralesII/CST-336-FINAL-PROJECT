@@ -52,6 +52,10 @@ router.get('/', (req, res) => {
    res.render('login.ejs')
 });
 
+router.get('/login', (req, res) => {
+  res.render('login.ejs');
+});
+
 
 
 router.post('/login', async (req, res) => {
