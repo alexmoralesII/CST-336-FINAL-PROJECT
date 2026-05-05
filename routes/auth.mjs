@@ -86,7 +86,6 @@ router.post('/login', async (req, res) => {
     req.session.username = user.username;
     req.session.role     = user.role;
     req.session.isAdmin = user.isAdmin;
-    console.log('user object:', user);
     req.session.save(() => {
         res.redirect('/artist');
     });
