@@ -72,12 +72,6 @@ router.get('/favorites', async (req, res) => {
 router.post('/favorites/song/add', async (req, res) => {
   const { songTitle, artistName } = req.body;
 
-  if (!songTitle || !artistName) {
-    return res.status(400).render('error.ejs', {
-      message: 'Song title and artist name are required.'
-    });
-  }
-
   try {
     await pool.query(
       'INSERT INTO favorite_songs (userId, songTitle, artistName) VALUES (?, ?, ?)',
@@ -94,7 +88,7 @@ router.post('/favorites/song/add', async (req, res) => {
 });
 
 
-// ── DELETE /user/favorites/:id ────────────────────────────────────────────────
+// ── Post /user/favorites/:id ────────────────────────────────────────────────
 router.post('/favorites/song/delete/:id', async (req, res) => {
   try {
     await pool.query(
@@ -111,4 +105,19 @@ router.post('/favorites/song/delete/:id', async (req, res) => {
   }
 });
 
+router.post('/favorites/artist/delete/:id', async (req, res) => {
+  try {
+    await pool.query(
+      'DELETE FROM favorite_artist WHERE fav_artistId = ? AND userId = ?',
+      [req.params.id, req.session.userId]
+    );
+
+    res.redirect('/user/favorites');
+  } catch (err) {
+    console.error('Favorite artist delete error:', err);
+    res.status(500).render('error.ejs', {
+      message: 'Could not delete favorite artist.'
+    });
+  }
+});
 export default router;
