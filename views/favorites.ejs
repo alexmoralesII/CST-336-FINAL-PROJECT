@@ -5,7 +5,7 @@
 <main>
   <h1>My Favorites</h1>
 
-  <h2>🎵 Songs</h2>
+  <h2>Songs</h2>
   <% if (favorites.length === 0) { %>
     <p>No favorite songs yet. <a href="/artist">Search for songs!</a></p>
   <% } else { %>
@@ -21,7 +21,7 @@
     </ul>
   <% } %>
 
-  <h2>🎤 Artists</h2>
+  <h2>Artists</h2>
   <% if (favArtists.length === 0) { %>
     <p>No favorite artists yet.</p>
   <% } else { %>
@@ -31,23 +31,6 @@
           <img src="<%= a.artistImgUrl %>" alt="<%= a.artistName %>" width="50">
           <%= a.artistName %>
           <form method="POST" action="/user/favorites/artist/delete/<%= a.fav_artistId %>" style="display:inline">
-            <button type="submit">✕</button>
-          </form>
-        </li>
-      <% }) %>
-    </ul>
-  <% } %>
-
-  <h2>🎟️ Concerts</h2>
-  <% if (favConcerts.length === 0) { %>
-    <p>No favorite concerts yet.</p>
-  <% } else { %>
-    <ul>
-      <% favConcerts.forEach(c => { %>
-        <li>
-          <strong><%= c.eventTitle %></strong> — <%= c.artistName %><br>
-          <%= c.venueName %>, <%= c.city %>, <%= c.country %> on <%= c.concertDate %>
-          <form method="POST" action="/user/favorites/concert/delete/<%= c.fav_concertId %>" style="display:inline">
             <button type="submit">✕</button>
           </form>
         </li>

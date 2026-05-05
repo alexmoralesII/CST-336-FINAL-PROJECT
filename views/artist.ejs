@@ -30,6 +30,11 @@
             
             <div id="left-col">
                 <h2><%= artist %></h2>
+                <form method="POST" action="/user/favorites/artist/add" class="favorite-form">
+                    <input type="hidden" name="artistName" value="<%= artist %>">
+                    <input type="hidden" name="artistImgUrl" value="">
+                    <button type="submit" class="favorite-btn">Favorite Artist ♡</button>
+                </form>
             </div>
     
         
