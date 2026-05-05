@@ -14,9 +14,9 @@
 <body>
     <%- include('partials/navbar.ejs') %>
 
-    <h1>Events</h1>
+    <h1>Event Search</h1>
 
-    <div id="events-search-section">
+    <div id="search-section">
         <form action="/events/search" method="GET">
             <input type="text" name="artist" placeholder="Search for an artist..." />
             <button type="submit">Search</button>
@@ -36,19 +36,62 @@
                             <h3 class="event-artist"><%= i.name %></h3>
                             <p class="event-date"><%= new Date(i.startDate).toDateString() %></p>
                             <p class="event-venue"><%= i.location.name %></p>
-                            <p class="event-city"><%= i.location.address.addressLocality %>, <%= i.location.address.addressRegion %></p>
+                            <p class="event-city">
+                                <%= i.location.address.addressLocality %>,
+                                <%= i.location.address.addressRegion.name %></p>
                             <a class="event-link" href="<%= i.url %>" target="_blank">Get Tickets</a>
                         </div>
                     <% } %>
                 </div>
+                <div id="pagination-buttons">
+                    <button id="prev-btn">Previous</button>
+                    <button id="next-btn">Next</button>
+                </div>
             <% } %>
-
-            <div id="nav-buttons">
-                <a href="/events">New Search</a>
-            </div>
         </div>
     <% } %>
 
     <%- include('partials/footer.ejs') %>
+
+    <script>
+        const events = document.querySelectorAll('.event-card');
+        const eventsPerPage = 6;
+        let currentPage = 0;
+
+        function showPage(page) {
+            let start = page * eventsPerPage;
+            let end = start + eventsPerPage;
+
+            for (let i = 0; i < events.length; i++) {
+                if (i >= start && i < end) {
+                    events[i].style.display = 'block';
+                } else {
+                    events[i].style.display = 'none';
+                }
+            }
+        }
+
+        function updateButtons() {
+            document.getElementById('prev-btn').style.display = currentPage === 0 ? 'none' : 'inline-block';
+            document.getElementById('next-btn').style.display = (currentPage + 1) * eventsPerPage >= events.length ? 'none' : 'inline-block';
+        }
+
+        if (events.length > 0) {
+            showPage(currentPage);
+            updateButtons();
+
+            document.getElementById('next-btn').addEventListener('click', () => {
+                currentPage++;
+                showPage(currentPage);
+                updateButtons();
+            });
+
+            document.getElementById('prev-btn').addEventListener('click', () => {
+                currentPage--;
+                showPage(currentPage);
+                updateButtons();
+            });
+        }
+    </script>
 </body>
 </html>

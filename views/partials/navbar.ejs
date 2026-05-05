@@ -1,10 +1,6 @@
 <nav>
-  <div class="nav-brand">
-    <a href="/artist">🎵 Music App</a>
-  </div>
-
   <div class="nav-links">
-    <a href="/artist">Search</a>
+    <a href="/artist">Search For Artist</a>
     <a href="/events"> Search for Events</a>
 
     <% if (locals.fullName) { %>
@@ -17,9 +13,6 @@
 
       <span class="nav-user">Welcome, <%= fullName %></span>
       <a href="/logout">Logout</a>
-    <% } else { %>
-      <a href="/login">Login</a>
-      <a href="/register">Register</a>
     <% } %>
   </div>
 </nav>

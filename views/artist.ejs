@@ -23,29 +23,34 @@
         </form>
     </div>
 
-    <% if (songs) { %>
-        <div id="song-list-section">
-            <h2><%= artist %></h2>
 
-            <div id="page-wrapper">
-                <div id="song-list" class="container-fluid">
-                    <% for (let i of songs) { %>
-                        <div class="song-row">
-                            <a href="/artist/lyrics?artist=<%= i.artist.name %>&song=<%= i.title %>">
+
+    <% if (songs) { %>
+        <div id="page-wrapper">
+            
+            <div id="left-col">
+                <h2><%= artist %></h2>
+            </div>
+    
+        
+            <div id="right-col">
+                <div id="song-list-section">
+                    <div id="song-list" class="container-fluid">
+                        <% for (let i of songs) { %>
+                            <div class="song-row">
+                                <a href="/artist/lyrics?artist=<%= i.artist.name %>&song=<%= i.title %>">
                                 <%= i.title %>
-                            </a>
-                        </div>
-                    <% } %>
+                                </a>
+                            </div>
+                        <% } %>
+                    </div>
+
+                <div id="pagination-buttons">
+                    <button id="prev-btn">Previous</button>
+                    <button id="next-btn">Next</button>
                 </div>
             </div>
-
-            <div id="nav-buttons">
-                <a href="/artist">New Search</a>
-            </div>
-            <div id="pagination-buttons">
-                <button id="prev-btn">Previous</button>
-                <button id="next-btn">Next</button>
-            </div>
+        </div>
         </div>
     <% } %>
 
@@ -74,51 +79,13 @@
             </div>
         </div>
     <% } %>
+    </div>
 
 
 
     <%- include('partials/footer.ejs') %>
 
-    <script>
-        const songs = document.querySelectorAll('.song-row');
-        const songsPerPage = 15;
-        let currentPage = 0;
-
-        function showPage(page) {
-            let start = page * songsPerPage;
-            let end = start + songsPerPage;
-
-            for (let i = 0; i < songs.length; i++) {
-                if (i >= start && i < end) {
-                    songs[i].style.display = 'block';
-                } else {
-                    songs[i].style.display = 'none';
-                }
-            }
-        }
-
-        function updateButtons() {
-            document.getElementById('prev-btn').style.display = currentPage === 0 ? 'none' : 'inline-block';
-            document.getElementById('next-btn').style.display = (currentPage + 1) * songsPerPage >= songs.length ? 'none' : 'inline-block';
-        }
-
-        if (songs.length > 0) {
-            showPage(currentPage);
-            updateButtons();
-
-            document.getElementById('next-btn').addEventListener('click', () => {
-                currentPage++;
-                showPage(currentPage);
-                updateButtons();
-            });
-
-            document.getElementById('prev-btn').addEventListener('click', () => {
-                currentPage--;
-                showPage(currentPage);
-                updateButtons();
-            });
-        }
-    </script>
+    
 </body>
     
-    </html>
+</html>
