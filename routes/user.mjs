@@ -15,6 +15,22 @@ router.get('/profile', isUserAuthenticated, (req, res) => {
   res.render('profile.ejs', { error: null, success: null, user: { username: req.session.username } });
 });
 
+router.get('/admin', isUserAuthenticated, (req, res) => {
+  res.render('admin.ejs', { error: null, success: null, user: { username: req.session.username } });
+});
+
+router.post('/admin', isUserAuthenticated, async (req, res) => {
+  try{
+    const[rows] = await pool.query(
+      'DELETE FROM users WHERE userId = ?', [req.session.userId]
+    )
+  } catch (err) {
+      console.error('Settings error:', err);
+      res.status(500).render('error.ejs', { message: 'Could not update password.' });
+    }
+  });
+
+
 
 
 // ── GET /user/settings ────────────────────────────────────────────────────────
@@ -27,9 +43,9 @@ router.get('/profile', isUserAuthenticated, (req, res) => {
     const { current_password, new_password } = req.body;
     try {
       const [rows] = await pool.query(
-        'SELECT * FROM user WHERE userId = ?', [req.session.userId]
+        'SELECT * FROM users WHERE userId = ?', [req.session.userId]
       );
-      
+
       const user = rows[0];
       const match = await bcrypt.compare(current_password, user.password);
       if (!match) {

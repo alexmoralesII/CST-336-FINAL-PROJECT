@@ -22,7 +22,7 @@
           <td><%= u.isAdmin ? 'Yes' : 'No' %></td>
           <td>
             <% if (!u.isAdmin) { %>
-              <form method="POST" action="/user/admin/users/delete/<%= u.userId %>">
+              <form method="POST" action="/user/admin/delete/<%= u.userId %>">
                 <button type="submit">Delete</button>
               </form>
             <% } %>
