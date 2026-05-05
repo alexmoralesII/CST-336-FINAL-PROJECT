@@ -82,4 +82,34 @@
     }
   });
 
+// ── GET /user/settings ────────────────────────────────────────────────────────
+  router.get('/settings', isUserAuthenticated, (req, res) => {
+    res.render('settings.ejs', { error: null, success: null });
+  });
+
+  // ── POST /user/settings ───────────────────────────────────────────────────────
+  router.post('/settings', isUserAuthenticated, async (req, res) => {
+    const { current_password, new_password } = req.body;
+    try {
+      const [rows] = await pool.query(
+        'SELECT * FROM user WHERE userId = ?', [req.session.userId]
+      );
+      const user = rows[0];
+      const match = await bcrypt.compare(current_password, user.password);
+      if (!match) {
+        return res.render('settings.ejs', { error: 'Current password is incorrect.', success: null });
+      }
+      const hashed = await bcrypt.hash(new_password, 10);
+      await pool.query(
+        'UPDATE user SET password = ? WHERE userId = ?',
+        [hashed, req.session.userId]
+      );
+      res.render('settings.ejs', { error: null, success: 'Password updated!' });
+    } catch (err) {
+      console.error('Settings error:', err);
+      res.status(500).render('error.ejs', { message: 'Could not update password.' });
+    }
+  });
+
+
   export default router;
