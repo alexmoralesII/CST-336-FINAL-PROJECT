@@ -27,12 +27,13 @@
 
     <% if (songs) { %>
         <div id="page-wrapper">
-            
+
             <div id="left-col">
+                <img src="<%= songs[0].artist.picture_big %>" alt="<%= artist %>" style="width:200px; border-radius:50%;">
                 <h2><%= artist %></h2>
                 <form method="POST" action="/user/favorites/artist/add" class="favorite-form">
                     <input type="hidden" name="artistName" value="<%= artist %>">
-                    <input type="hidden" name="artistImgUrl" value="">
+                    <input type="hidden" name="artistImgUrl" value="<%= songs[0].artist.picture_big %>">
                     <button type="submit" class="favorite-btn">Favorite Artist ♡</button>
                 </form>
             </div>

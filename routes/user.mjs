@@ -106,6 +106,25 @@ router.post('/favorites/song/delete/:id', async (req, res) => {
   }
 });
 
+router.post('/favorites/artist/add', async (req, res) => {
+  const {artistName,artistImgUrl} = req.body;
+  const userId = req.session.userId;
+
+  try {
+    await pool.query(
+        'INSERT INTO favorite_artist (userId, artistName, artistImgUrl) VALUES (?, ?, ?)',
+        [req.session.userId, artistName, artistImgUrl]
+    );
+
+    res.redirect('/user/favorites');
+  } catch (err) {
+    console.error('Favorite artist insert error:', err);
+    res.status(500).render('error.ejs', {
+      message: 'Could not save favorite artist.'
+    });
+  }
+});
+
 router.post('/favorites/artist/delete/:id', async (req, res) => {
   try {
     await pool.query(
