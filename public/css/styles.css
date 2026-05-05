@@ -23,13 +23,49 @@ h1 {
 
 footer {
     text-align: center;
-    color: blueviolet;
-    background-color: rgb(223, 214, 214);
+    color: #d0beff;
+    background: linear-gradient(to bottom, black, #1a0033);
     width: 100%;
     margin: 0;
+    margin-top: 20px;
+    padding: 30px 20px 20px;
     font-style: italic;
-    margin-top: auto;
+    border-top: 1px solid blueviolet;
+    font-size: 14px;
+    letter-spacing: 0.5px;
 }
+
+nav {
+    background: linear-gradient(to bottom, #1a0033, black);
+    padding: 12px 20px;
+    border-bottom: 1px solid blueviolet;
+    margin: -15px -15px 20px -15px;
+}
+
+.nav-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.nav-links a {
+    background-color: transparent;
+    color: #d0beff;
+    border: 1px solid blueviolet;
+    border-radius: 20px;
+    padding: 7px 16px;
+    font-size: 14px;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-links a:hover {
+    background-color: blueviolet;
+    color: black;
+}
+
+
 
 a {
     display: inline-block;
