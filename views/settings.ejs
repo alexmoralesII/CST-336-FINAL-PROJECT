@@ -1,20 +1,14 @@
-<% locals.title = 'My Profile' %>
+<% locals.title = 'Settings' %>
 <%- include('partials/header') %>
 <%- include('partials/navbar') %>
 
 <main>
-  <h1>My Profile</h1>
+  <h1>Settings</h1>
   <% if (error)   { %><p class="error"><%= error %></p><% } %>
   <% if (success) { %><p class="success"><%= success %></p><% } %>
-  <span class="nav-user">Welcome, <%= fullName %></span>
-  <% if (locals.role === 'admin') { %>
-  <form method="POST" action="/user/profile">
-    <label>Username
-      <input type="text" value="<%= user.username %>" disabled>
-    </label>
-    <hr>
-    
-    <p>Change password (leave blank to keep current):</p>
+
+  <form method="POST" action="/user/settings">
+    <p>Change password:</p>
     <label>Current Password
       <input type="password" name="current_password">
     </label>
@@ -23,7 +17,6 @@
     </label>
     <button type="submit">Save Changes</button>
   </form>
-  <% } %>
 </main>
 
 <%- include('partials/footer') %>

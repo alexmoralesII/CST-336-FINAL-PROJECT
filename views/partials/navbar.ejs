@@ -6,12 +6,12 @@
     <% if (locals.fullName) { %>
       <a href="/user/favorites">Favorites</a>
       <a href="/user/profile">Profile</a>
+      <a href="/user/settings">Settings</a>
 
       <% if (locals.role === 'admin') { %>
         <a href="/admin">Admin</a>
       <% } %>
 
-      <span class="nav-user">Welcome, <%= fullName %></span>
       <a href="/logout">Logout</a>
     <% } %>
   </div>
